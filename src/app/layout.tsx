@@ -5,7 +5,6 @@ import { Providers } from "~/lib/providers";
 import { Header } from "~/components/header";
 import { Footer } from "~/components/footer";
 import { PromptBar } from "~/components/prompt-bar";
-import { ChatMessages } from "~/components/chat-messages";
 import { cn } from "~/lib/utils";
 import { GeistSans } from "geist/font/sans";
 
@@ -26,13 +25,8 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
         <Providers>
           <div className="relative flex min-h-screen flex-col">
             <Header />
-            <div className="flex flex-1 flex-row pt-[72px]">
-              <div className="flex h-[calc(100vh-120px)] w-[320px] flex-col">
-                <ChatMessages />
-              </div>
-              {children}
-            </div>
-            <PromptBar className="absolute bottom-[48px]" />
+            <div className="flex flex-1 flex-col pt-[72px]">{children}</div>
+            <PromptBar className="fixed right-0 bottom-[48px] left-0" />
             <Footer />
           </div>
         </Providers>

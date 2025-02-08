@@ -9,7 +9,7 @@ export function ChatMessages() {
 
   return (
     <Card className="bg-background/80 flex-1 rounded-none border-0 backdrop-blur-sm">
-      <CardContent className="h-full flex-1 space-y-4 overflow-y-auto p-4">
+      <CardContent className="mx-auto h-full w-full max-w-4xl flex-1 space-y-4 overflow-y-auto p-4">
         <AnimatePresence initial={false}>
           {messages.map((message) => (
             <motion.div
