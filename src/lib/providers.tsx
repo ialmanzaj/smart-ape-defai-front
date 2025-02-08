@@ -56,6 +56,13 @@ export function Providers({ children }: { children: ReactNode }) {
       <OnchainKitProvider
         apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
         chain={base} // add baseSepolia for testing
+        config={{
+          appearance: {
+            name: "Smart Ape",
+            logo: "/ape.png",
+          },
+        }}
+        projectId={process.env.NEXT_PUBLIC_CDP_PROJECT_ID}
       >
         {children}
       </OnchainKitProvider>
