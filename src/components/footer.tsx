@@ -4,14 +4,14 @@ import {
   DISCORD_LINK,
   FIGMA_LINK,
   GITHUB_LINK,
-  ONCHAINKIT_LINK,
+  DOCS_LINK,
   TWITTER_LINK,
 } from "src/links";
 import { motion } from "framer-motion"; // Import motion from framer-motion
 import ArrowSvg from "src/svg/arrow-svg";
 
 const docLinks = [
-  { href: ONCHAINKIT_LINK, title: "Docs" },
+  { href: DOCS_LINK, title: "Docs" },
   { href: GITHUB_LINK, title: "Github" },
   { href: DISCORD_LINK, title: "Discord" },
   { href: FIGMA_LINK, title: "Figma" },
@@ -26,7 +26,7 @@ export default function Footer() {
           <h3 className="group-hover:text-foreground text-sm text-gray-500 transition-colors dark:text-white">
             Built with love with{" "}
             <a
-              href={ONCHAINKIT_LINK}
+              href={DOCS_LINK}
               target="_blank"
               rel="noreferrer"
               title="OnchainKit"

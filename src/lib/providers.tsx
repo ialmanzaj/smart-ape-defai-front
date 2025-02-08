@@ -55,10 +55,10 @@ export function Providers({ children }: { children: ReactNode }) {
     <ThemeProvider>
       <OnchainKitProvider
         apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
-        chain={base} // add baseSepolia for testing
+        chain={base}
         config={{
           appearance: {
-            name: "Smart Ape",
+            name: "Smart Ape | DeFAI Agent",
             logo: "/ape.png",
           },
         }}
