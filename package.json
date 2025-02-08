@@ -16,6 +16,8 @@
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,mdx}\" --cache"
   },
   "dependencies": {
+    "@cowprotocol/contracts": "^1.7.0",
+    "@cowprotocol/cow-sdk": "^5.10.0-RC.2",
     "@coinbase/cdp-agentkit-core": "^0.0.6",
     "@coinbase/cdp-langchain": "^0.0.7",
     "@coinbase/wallet-sdk": "^4.2.4",
