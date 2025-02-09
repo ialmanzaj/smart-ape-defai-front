@@ -1,52 +1,42 @@
 "use client";
 
-import { Card, CardContent } from "./ui/card";
-import { motion, AnimatePresence } from "framer-motion";
+import { Card } from "./ui/card";
+import { ScrollArea } from "./ui/scroll-area";
+import { AnimatePresence } from "framer-motion";
 import { useChat } from "~/contexts/chat-context";
+import { MessageGroup } from "./chat/message-group";
+import { LoadingBubble } from "./chat/loading-bubble";
 
 export function ChatMessages() {
   const { isLoading, messages } = useChat();
 
+  // Group consecutive messages from the same role
+  const messageGroups = messages.reduce<Array<typeof messages>>(
+    (groups, message) => {
+      const lastGroup = groups[groups.length - 1];
+      if (lastGroup && lastGroup[0].role === message.role) {
+        lastGroup.push(message);
+      } else {
+        groups.push([message]);
+      }
+      return groups;
+    },
+    [],
+  );
+
   return (
     <Card className="bg-background/80 flex-1 rounded-none border-0 backdrop-blur-sm">
-      <CardContent className="mx-auto h-full w-full max-w-4xl flex-1 space-y-4 overflow-y-auto p-4">
-        <AnimatePresence initial={false}>
-          {messages.map((message) => (
-            <motion.div
-              key={message.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className={`flex ${
-                message.role === "user" ? "justify-end" : "justify-start"
-              }`}
-            >
-              <div
-                className={`max-w-[80%] rounded-lg px-4 py-2 ${
-                  message.role === "user"
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-muted"
-                }`}
-              >
-                {message.content}
-              </div>
-            </motion.div>
-          ))}
-        </AnimatePresence>
-        {isLoading && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="flex justify-start"
-          >
-            <div className="bg-muted flex space-x-2 rounded-lg px-4 py-2">
-              <div className="bg-muted-foreground/50 h-2 w-2 animate-bounce rounded-full" />
-              <div className="bg-muted-foreground/50 h-2 w-2 animate-bounce rounded-full [animation-delay:0.2s]" />
-              <div className="bg-muted-foreground/50 h-2 w-2 animate-bounce rounded-full [animation-delay:0.4s]" />
-            </div>
-          </motion.div>
-        )}
-      </CardContent>
+      <div className="from-background/10 to-background/80 absolute inset-0 bg-gradient-to-b" />
+      <ScrollArea className="relative h-[calc(100vh-180px)] pb-4">
+        <div className="mx-auto flex w-full max-w-[800px] flex-col gap-3 px-4 pt-4">
+          <AnimatePresence>
+            {messageGroups.map((group) => (
+              <MessageGroup key={group[0].id} messages={group} />
+            ))}
+            {isLoading && <LoadingBubble />}
+          </AnimatePresence>
+        </div>
+      </ScrollArea>
     </Card>
   );
 }

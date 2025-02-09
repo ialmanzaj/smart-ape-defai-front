@@ -6,66 +6,87 @@ interface Message {
   id: string;
   content: string;
   role: "user" | "assistant";
-  timestamp: Date;
 }
 
 interface ChatContextType {
-  input: string;
-  setInput: (input: string) => void;
-  isLoading: boolean;
-  setIsLoading: (isLoading: boolean) => void;
   messages: Message[];
-  setMessages: (messages: Message[]) => void;
-  handleSubmit: (e: React.FormEvent) => void;
+  sendMessage: (content: string) => Promise<void>;
+  isLoading: boolean;
 }
 
 const ChatContext = createContext<ChatContextType | undefined>(undefined);
 
 export function ChatProvider({ children }: { children: ReactNode }) {
-  const [input, setInput] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!input.trim()) return;
+  const createMessage = (
+    content: string,
+    role: "user" | "assistant",
+  ): Message => ({
+    id: Date.now().toString(),
+    content,
+    role,
+  });
 
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      content: input.trim(),
-      role: "user",
-      timestamp: new Date(),
-    };
+  const sendMessage = async (content: string) => {
+    if (!content.trim() || isLoading) return;
 
-    setMessages((prev) => [...prev, userMessage]);
-    setInput("");
     setIsLoading(true);
+    setMessages((prev) => [...prev, createMessage(content, "user")]);
 
-    // Simulate AI response
-    setTimeout(() => {
-      const assistantMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        content: "This is a placeholder response. The chatbot is coming soon!",
-        role: "assistant",
-        timestamp: new Date(),
-      };
-      setMessages((prev) => [...prev, assistantMessage]);
+    try {
+      const response = await fetch("/api/proxy", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "text/event-stream",
+        },
+        body: JSON.stringify({
+          input: content,
+          conversation_id: 0,
+        }),
+      });
+
+      if (!response.ok) throw new Error("Failed to send message");
+
+      const reader = response.body?.getReader();
+      if (!reader) throw new Error("No response stream");
+
+      const decoder = new TextDecoder();
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value);
+        const lines = chunk.split("\n").filter(Boolean);
+
+        for (const line of lines) {
+          const event = JSON.parse(line);
+          if (event.event === "agent" && event.data) {
+            setMessages((prev) => [
+              ...prev,
+              createMessage(event.data, "assistant"),
+            ]);
+          }
+        }
+      }
+    } catch (error) {
+      setMessages((prev) => [
+        ...prev,
+        createMessage(
+          "Sorry, something went wrong. Please try again.",
+          "assistant",
+        ),
+      ]);
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   return (
-    <ChatContext.Provider
-      value={{
-        input,
-        setInput,
-        isLoading,
-        setIsLoading,
-        messages,
-        setMessages,
-        handleSubmit,
-      }}
-    >
+    <ChatContext.Provider value={{ messages, sendMessage, isLoading }}>
       {children}
     </ChatContext.Provider>
   );
@@ -73,8 +94,6 @@ export function ChatProvider({ children }: { children: ReactNode }) {
 
 export function useChat() {
   const context = useContext(ChatContext);
-  if (context === undefined) {
-    throw new Error("useChat must be used within a ChatProvider");
-  }
+  if (!context) throw new Error("useChat must be used within ChatProvider");
   return context;
 }

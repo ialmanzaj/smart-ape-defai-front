@@ -25,7 +25,7 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
         <Providers>
           <div className="relative flex min-h-screen flex-col">
             <Header />
-            <div className="flex flex-1 flex-col pt-[72px]">{children}</div>
+            <main className="flex-1 pt-[72px] pb-[108px]">{children}</main>
             <PromptBar className="fixed right-0 bottom-[48px] left-0" />
             <Footer />
           </div>
