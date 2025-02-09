@@ -1,6 +1,5 @@
 "use client";
 
-import { PayButton } from "@coinbase/onchainkit";
 import {
   Checkout,
   CheckoutButton,

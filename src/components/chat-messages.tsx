@@ -14,7 +14,7 @@ export function ChatMessages() {
   const messageGroups = messages.reduce<Array<typeof messages>>(
     (groups, message) => {
       const lastGroup = groups[groups.length - 1];
-      if (lastGroup && lastGroup[0].role === message.role) {
+      if (lastGroup?.length && lastGroup[0]?.role === message.role) {
         lastGroup.push(message);
       } else {
         groups.push([message]);
@@ -31,7 +31,10 @@ export function ChatMessages() {
         <div className="mx-auto flex w-full max-w-[800px] flex-col gap-3 px-4 pt-4">
           <AnimatePresence>
             {messageGroups.map((group) => (
-              <MessageGroup key={group[0].id} messages={group} />
+              <MessageGroup
+                key={group[0]?.id ?? `group-${Date.now()}`}
+                messages={group}
+              />
             ))}
             {isLoading && <LoadingBubble />}
           </AnimatePresence>

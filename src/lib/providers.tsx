@@ -38,7 +38,6 @@ export function Providers({ children }: { children: ReactNode }) {
       <QueryClientProvider client={queryClient}>
         <NextThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <OnchainKitProvider
-            defaultChain={base}
             projectId={projectId}
             defaultCollectible={{
               name: "Smart Ape",

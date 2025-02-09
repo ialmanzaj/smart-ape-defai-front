@@ -8,7 +8,7 @@ interface MessageGroupProps {
 }
 
 export function MessageGroup({ messages }: MessageGroupProps) {
-  const isUser = messages[0].role === "user";
+  const isUser = messages[0]?.role === "user";
 
   return (
     <motion.div

@@ -3,7 +3,7 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
 import { NEXT_PUBLIC_API_URL } from "~/config";
 
-interface Message {
+export interface Message {
   id: string;
   content: string;
   role: "user" | "assistant";
