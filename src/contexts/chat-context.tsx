@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, type ReactNode } from "react";
+import { NEXT_PUBLIC_API_URL } from "~/config";
 
 interface Message {
   id: string;
@@ -36,7 +37,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
     setMessages((prev) => [...prev, createMessage(content, "user")]);
 
     try {
-      const response = await fetch("/api/proxy", {
+      const response = await fetch(`${NEXT_PUBLIC_API_URL}/api/chat`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -73,6 +74,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
         }
       }
     } catch (error) {
+      console.error("Chat error:", error);
       setMessages((prev) => [
         ...prev,
         createMessage(

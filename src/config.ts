@@ -5,5 +5,7 @@ export const NEXT_PUBLIC_URL = process.env.NODE_ENV === "development"
 // Add your API KEY from the Coinbase Developer Portal
 export const NEXT_PUBLIC_CDP_API_KEY = process.env.NEXT_PUBLIC_CDP_API_KEY;
 export const NEXT_PUBLIC_WC_PROJECT_ID = process.env.NEXT_PUBLIC_WC_PROJECT_ID;
-export const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL ||
+import { env } from "~/env.js";
+
+export const NEXT_PUBLIC_API_URL = env.NEXT_PUBLIC_API_URL ||
     "https://smart-ape-agent.koyeb.app";
