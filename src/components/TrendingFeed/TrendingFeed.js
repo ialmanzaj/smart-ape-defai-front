@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { Collapse } from "reactstrap"; // Import Collapse from Reactstrap
-import { useData } from "../../DataContext";
+import { useData } from "../../../DataContext.js";
 import Skeleton from "../Misc/Skeleton";
 import moment from "moment";
-import "../WalletPortfolio/Wallet.css";
+import "../moralis/WalletPortfolio/Wallet.css";
 import "../PairAnalytics/PairStats.css";
 import "./Trending.css";
-import * as utilities from "../../utilities.js";
+import * as utilities from "../../../utilities.js";
 import CopyToClipboard from "../Misc/CopyToClipboard";
-import MiniAreaChart from "./MiniAreaChart";
+import MiniAreaChart from "./MiniAreaChart.js";
 import SideDrawer from "../PairAnalytics/SideDrawer"; // Import the reusable SideDrawer component
-import TransactionImage from "../WalletPortfolio/TransactionImage";
-import SimpleCategory from "../WalletPortfolio/SimpleCategory";
+import TransactionImage from "../WalletPortfolio/TransactionImage.js";
+import SimpleCategory from "../WalletPortfolio/SimpleCategory.js";
 
 const TrendingFeed = () => {
   const { globalDataCache, setGlobalDataCache } = useData();
@@ -43,7 +43,7 @@ const TrendingFeed = () => {
 
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/wallet/${walletAddress}/token/${tokenAddress}/top-holder?chain=${globalDataCache.selectedChain}`
+        `${process.env.REACT_APP_API_URL}/api/wallet/${walletAddress}/token/${tokenAddress}/top-holder?chain=${globalDataCache.selectedChain}`,
       );
       if (!response.ok) {
         throw new Error("Failed to fetch wallet data");
@@ -78,8 +78,8 @@ const TrendingFeed = () => {
           const newTransactions = fetchedData.sortedTransactions.filter(
             (tx) =>
               !previousTransactions.some(
-                (prevTx) => prevTx.transactionHash === tx.transactionHash
-              )
+                (prevTx) => prevTx.transactionHash === tx.transactionHash,
+              ),
           );
 
           // Merge and sort transactions by blockTimestamp (most recent first)
@@ -87,7 +87,7 @@ const TrendingFeed = () => {
             ...newTransactions,
             ...previousTransactions,
           ].sort(
-            (a, b) => new Date(b.blockTimestamp) - new Date(a.blockTimestamp)
+            (a, b) => new Date(b.blockTimestamp) - new Date(a.blockTimestamp),
           );
 
           // Highlight new transactions
@@ -114,7 +114,7 @@ const TrendingFeed = () => {
   // Toggle expanded item
   const toggleExpandItem = (transactionHash) => {
     setExpandedItem((prev) =>
-      prev === transactionHash ? null : transactionHash
+      prev === transactionHash ? null : transactionHash,
     );
   };
 
@@ -286,7 +286,7 @@ const TrendingFeed = () => {
             <ul className="">
               {globalDataCache.trendingFeed &&
                 filterTransactions(
-                  globalDataCache.trendingFeed.sortedTransactions
+                  globalDataCache.trendingFeed.sortedTransactions,
                 ).map((transaction, index) => {
                   const isBuy = transaction.transactionType === "buy";
                   const baseToken = isBuy
@@ -324,7 +324,7 @@ const TrendingFeed = () => {
                   }
 
                   const isNew = highlightedIds.includes(
-                    transaction.transactionHash
+                    transaction.transactionHash,
                   );
 
                   return (
@@ -399,7 +399,7 @@ const TrendingFeed = () => {
                           <p>
                             Block Timestamp:{" "}
                             {moment(transaction.blockTimestamp).format(
-                              "YYYY-MM-DD HH:mm:ss"
+                              "YYYY-MM-DD HH:mm:ss",
                             )}
                           </p>
                           <p>

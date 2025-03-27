@@ -10,6 +10,8 @@ import { createConfig, http } from "wagmi";
 import { base, baseSepolia } from "wagmi/chains";
 import { NEXT_PUBLIC_WC_PROJECT_ID } from "./config";
 
+const MORALIS_API_KEY = process.env.MORALIS_API_KEY; // If needed
+
 export function useWagmiConfig() {
     const projectId = NEXT_PUBLIC_WC_PROJECT_ID ?? "";
 

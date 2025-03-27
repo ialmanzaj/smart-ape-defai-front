@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Collapse } from "reactstrap";
 import moment from "moment";
 import * as utilities from "../../utilities.js";
-import "../TrendingFeed/Trending.css"; // Reuse the same CSS you already have
+import "../moralis/TrendingFeed/Trending.css"; // Reuse the same CSS you already have
 import { useData } from "../../DataContext";
 import SideDrawer from "./SideDrawer"; // Import the reusable SideDrawer component
-import TransactionImage from "../WalletPortfolio/TransactionImage";
-import SimpleCategory from "../WalletPortfolio/SimpleCategory";
+import TransactionImage from "../moralis/WalletPortfolio/TransactionImage.js";
+import SimpleCategory from "../moralis/WalletPortfolio/SimpleCategory.js";
 
 const Trending = ({ trendingData }) => {
   const [filter, setFilter] = useState("all");
@@ -37,7 +37,7 @@ const Trending = ({ trendingData }) => {
 
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/wallet/${walletAddress}/token/${globalDataCache.pairStats.tokenAddress}/top-holder?chain=${globalDataCache.selectedChain}`
+        `${process.env.REACT_APP_API_URL}/api/wallet/${walletAddress}/token/${globalDataCache.pairStats.tokenAddress}/top-holder?chain=${globalDataCache.selectedChain}`,
       );
       if (!response.ok) {
         throw new Error("Failed to fetch wallet data");
@@ -90,7 +90,7 @@ const Trending = ({ trendingData }) => {
   // Toggle expanded item
   const toggleExpandItem = (transactionHash) => {
     setExpandedItem((prev) =>
-      prev === transactionHash ? null : transactionHash
+      prev === transactionHash ? null : transactionHash,
     );
   };
 
@@ -149,7 +149,7 @@ const Trending = ({ trendingData }) => {
                 transaction,
                 isBuy,
                 baseToken,
-                globalDataCache?.pairStats?.tokenSymbol
+                globalDataCache?.pairStats?.tokenSymbol,
               );
 
             const isNew = highlightedIds.includes(transaction.transactionHash);
@@ -161,7 +161,7 @@ const Trending = ({ trendingData }) => {
                     transaction,
                     sentence,
                     category,
-                    baseTokenSummary
+                    baseTokenSummary,
                   )
                 }
                 key={`trending-${transaction.transactionHash}-${
@@ -204,7 +204,7 @@ const Trending = ({ trendingData }) => {
                       <button
                         onClick={() =>
                           navigator.clipboard.writeText(
-                            transaction.transactionHash
+                            transaction.transactionHash,
                           )
                         }
                         className="copy-btn"
@@ -219,7 +219,7 @@ const Trending = ({ trendingData }) => {
                     <p>
                       Timestamp:{" "}
                       {moment(transaction.blockTimestamp).format(
-                        "YYYY-MM-DD HH:mm:ss"
+                        "YYYY-MM-DD HH:mm:ss",
                       )}
                     </p>
                   </div>
