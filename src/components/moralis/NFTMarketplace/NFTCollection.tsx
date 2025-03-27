@@ -15,45 +15,45 @@ import moment from "moment";
 import CollectionCategory from "./CollectionCategory";
 
 const NFTCollection: React.FC = () => {
-	const { globalDataCache, setGlobalDataCache } = useData();
-	const [loading, setLoading] = useState(false);
-	const [error, setError] = useState<string | null>(null);
-	const { id } = useParams<{ id: string }>();
-	const navigate = useNavigate();
+  const { globalDataCache, setGlobalDataCache } = useData();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
 
-	const goBack = () => {
-		navigate(-1);
-	};
+  const goBack = () => {
+    navigate(-1);
+  };
 
-	useEffect(() => {
-		async function fetchEntityDetails() {
-			try {
-				const response = await fetch(
-					`${process.env.REACT_APP_API_URL}/api/entities/${id}`,
-				);
-				if (!response.ok) {
-					throw new Error("Failed to fetch entity details");
-				}
-				const data = await response.json();
-				setGlobalDataCache((prevData) => ({
-					...prevData,
-					activeNFTCollection: data,
-				}));
-			} catch (error) {
-				setError(error.message);
-				console.error("Error fetching entity details:", error);
-			} finally {
-				setLoading(false);
-			}
-		}
+  useEffect(() => {
+    async function fetchEntityDetails() {
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_API_URL}/api/entities/${id}`,
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch entity details");
+        }
+        const data = await response.json();
+        setGlobalDataCache((prevData) => ({
+          ...prevData,
+          activeNFTCollection: data,
+        }));
+      } catch (error) {
+        setError(error.message);
+        console.error("Error fetching entity details:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
 
-		fetchEntityDetails();
-	}, [id, setGlobalDataCache]);
+    fetchEntityDetails();
+  }, [id, setGlobalDataCache]);
 
-	if (loading) return <Loader />;
-	if (error) return <div>Error: {error}</div>;
+  if (loading) return <Loader />;
+  if (error) return <div>Error: {error}</div>;
 
-	return <div>{/* Your component JSX goes here */}</div>;
+  return <div>{/* Your component JSX goes here */}</div>;
 };
 
 export default NFTCollection;

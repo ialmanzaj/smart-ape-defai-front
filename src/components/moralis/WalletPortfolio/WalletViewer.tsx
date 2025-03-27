@@ -11,30 +11,30 @@ import WalletForm from "./WalletForm";
 import Loader from "../Misc/Loader";
 
 const WalletViewer: React.FC = () => {
-	const { walletAddress } = useParams<{ walletAddress: string }>();
-	const [loading, setLoading] = useState<boolean>(true);
+  const { walletAddress } = useParams<{ walletAddress: string }>();
+  const [loading, setLoading] = useState<boolean>(true);
 
-	useEffect(() => {
-		// Fetch wallet details logic here
-	}, [walletAddress]);
+  useEffect(() => {
+    // Fetch wallet details logic here
+  }, [walletAddress]);
 
-	return (
-		<>
-			<NavBar />
-			<div>
-				{loading ? (
-					<Loader />
-				) : (
-					<Routes>
-						<Route path="/" element={<Overview />} />
-						<Route path="/defi" element={<DeFiTokens />} />
-						<Route path="/nfts" element={<NFTs />} />
-						<Route path="/history" element={<History />} />
-					</Routes>
-				)}
-			</div>
-		</>
-	);
+  return (
+    <>
+      <NavBar />
+      <div>
+        {loading ? (
+          <Loader />
+        ) : (
+          <Routes>
+            <Route path="/" element={<Overview />} />
+            <Route path="/defi" element={<DeFiTokens />} />
+            <Route path="/nfts" element={<NFTs />} />
+            <Route path="/history" element={<History />} />
+          </Routes>
+        )}
+      </div>
+    </>
+  );
 };
 
 export default WalletViewer;

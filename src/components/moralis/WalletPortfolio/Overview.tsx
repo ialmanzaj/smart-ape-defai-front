@@ -9,26 +9,26 @@ import ExternalLinkIcon from "../Misc/ExternalLinkIcon";
 import moment from "moment";
 
 const Overview: React.FC = () => {
-	const { globalDataCache } = useData();
-	const [loading, setLoading] = useState<boolean>(false);
+  const { globalDataCache } = useData();
+  const [loading, setLoading] = useState<boolean>(false);
 
-	useEffect(() => {
-		// Fetch overview logic here
-	}, []);
+  useEffect(() => {
+    // Fetch overview logic here
+  }, []);
 
-	return (
-		<div>
-			{loading && <Skeleton />}
-			{!loading && globalDataCache.overview && (
-				<div>
-					<h2>Overview</h2>
-					<NetworthChart chartArray={globalDataCache.overview.networth} />
-					<TxChart chartArray={globalDataCache.overview.transactions} />
-					{/* Other overview details */}
-				</div>
-			)}
-		</div>
-	);
+  return (
+    <div>
+      {loading && <Skeleton />}
+      {!loading && globalDataCache.overview && (
+        <div>
+          <h2>Overview</h2>
+          <NetworthChart chartArray={globalDataCache.overview.networth} />
+          <TxChart chartArray={globalDataCache.overview.transactions} />
+          {/* Other overview details */}
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default Overview;

@@ -8,31 +8,31 @@ import Loader from "../Misc/Loader";
 import NFT from "./NFT";
 
 const NFTs: React.FC = () => {
-	const { walletAddress } = useParams<{ walletAddress: string }>();
-	const fetchWalletDetails = useFetchWalletDetails(walletAddress);
-	const { globalDataCache } = useData();
-	const [loading, setLoading] = useState<boolean>(false);
+  const { walletAddress } = useParams<{ walletAddress: string }>();
+  const fetchWalletDetails = useFetchWalletDetails(walletAddress);
+  const { globalDataCache } = useData();
+  const [loading, setLoading] = useState<boolean>(false);
 
-	useEffect(() => {
-		// Fetch NFTs logic here
-	}, [walletAddress]);
+  useEffect(() => {
+    // Fetch NFTs logic here
+  }, [walletAddress]);
 
-	return (
-		<>
-			<NavBar />
-			<div>
-				{loading && <Loader />}
-				{!loading && globalDataCache.nfts && (
-					<div>
-						<h2>NFTs</h2>
-						{globalDataCache.nfts.map((nft) => (
-							<NFT key={nft.token_id} nft={nft} />
-						))}
-					</div>
-				)}
-			</div>
-		</>
-	);
+  return (
+    <>
+      <NavBar />
+      <div>
+        {loading && <Loader />}
+        {!loading && globalDataCache.nfts && (
+          <div>
+            <h2>NFTs</h2>
+            {globalDataCache.nfts.map((nft) => (
+              <NFT key={nft.token_id} nft={nft} />
+            ))}
+          </div>
+        )}
+      </div>
+    </>
+  );
 };
 
 export default NFTs;

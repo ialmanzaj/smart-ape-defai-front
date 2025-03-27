@@ -1,16 +1,16 @@
 import React from "react";
 
 interface CopyToClipboardProps {
-	valueToCopy: string;
+  valueToCopy: string;
 }
 
 const CopyToClipboard: React.FC<CopyToClipboardProps> = ({ valueToCopy }) => {
-	const handleCopy = () => {
-		navigator.clipboard.writeText(valueToCopy);
-		alert("Copied to clipboard!");
-	};
+  const handleCopy = () => {
+    navigator.clipboard.writeText(valueToCopy);
+    alert("Copied to clipboard!");
+  };
 
-	return <button onClick={handleCopy}>Copy</button>;
+  return <button onClick={handleCopy}>Copy</button>;
 };
 
 export default CopyToClipboard;
